@@ -30,24 +30,14 @@ second WebSocket.
    finnhub.api-key=your_key_here
    ```
 
-   Never put the key in `src/main/resources/application.properties`: that file is
-   committed and packaged into the jar.
-
+  
 2. **Run.**
 
    ```bash
    ./mvnw spring-boot:run
    ```
 
-   If port 8080 is taken, choose another port. Keep the quotes: without them PowerShell
-   splits the argument at the first dot and Maven reports "Unknown lifecycle phase".
-
-   ```bash
-   ./mvnw spring-boot:run "-Dspring-boot.run.arguments=--server.port=8091"
-   ```
-
-   Or set it once in `application-local.properties`: `server.port=8091`.
-
+  
 3. **Open** http://localhost:8080. Trades appear within seconds (BTC trades 24/7).
 
 4. **Test** (no key or internet needed):
@@ -185,7 +175,7 @@ starts on a minute boundary) are left out.
 - `CsvTradeStore.readAll` reads the whole file into memory.
 - Historical data and the quality check work only for `BINANCE:*` symbols.
 
-## Ideas for your own version
+## Ideas for future version
 
 - Store trades in SQLite or PostgreSQL and query by time range.
 - Alerts: notify when the price moves more than N% within a minute, then measure how often
