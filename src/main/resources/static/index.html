@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Live Market Feed</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div>
+        <h1 id="symbol">Live Market Feed</h1>
+        <p class="muted">Finnhub WebSocket → Spring Boot → this page (STOMP over WebSocket)</p>
+    </div>
+    <span id="connection" class="pill pill-off">connecting…</span>
+</header>
+
+<main>
+    <section class="price-row">
+        <div>
+            <div class="label">Last price</div>
+            <div id="last-price" class="big">–</div>
+        </div>
+        <div>
+            <div class="label">Trades / second</div>
+            <div id="rate" class="big">–</div>
+        </div>
+        <div>
+            <div class="label">Trades received</div>
+            <div id="received" class="big">–</div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Live trades <span class="muted">(last 5 minutes, pushed over WebSocket)</span></h2>
+        <div class="chart-box"><canvas id="live-chart"></canvas></div>
+    </section>
+
+    <section class="card">
+        <h2>Last 15 minutes <span class="muted">(from <code>/api/report</code>, refreshed every 10 s)</span></h2>
+        <div class="stats">
+            <div><div class="label">Trades</div><div id="r-count">–</div></div>
+            <div><div class="label">Volume</div><div id="r-volume">–</div></div>
+            <div><div class="label">Change</div><div id="r-change">–</div></div>
+            <div><div class="label">High / Low</div><div id="r-range">–</div></div>
+            <div><div class="label">VWAP</div><div id="r-vwap">–</div></div>
+            <div><div class="label">5-min moving avg</div><div id="r-sma">–</div></div>
+            <div><div class="label">1-min volatility</div><div id="r-vol">–</div></div>
+        </div>
+        <p><a id="csv-link" href="api/candles.csv?minutes=60">Download the last hour as 1-minute candles (CSV)</a></p>
+    </section>
+
+    <section class="card">
+        <h2>Data quality <span class="muted">(our candles vs the exchange's own)</span></h2>
+        <p class="muted">Builds one-minute candles from the recorded trades and compares them with Binance's official candles for the same minutes.</p>
+        <button id="dq-button" type="button">Check last 15 minutes</button>
+        <div id="dq-result" class="stats"></div>
+        <p id="dq-note" class="muted"></p>
+    </section>
+
+    <section class="card">
+        <h2>Last 24 hours <span class="muted">(historical, Binance REST API via <code>/api/history</code>)</span></h2>
+        <div class="chart-box"><canvas id="history-chart"></canvas></div>
+    </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
